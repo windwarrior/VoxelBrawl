@@ -116,6 +116,8 @@ Chunk.prototype.render = function (world) {
 
     this.mesh = new THREE.Mesh();
     this.mesh.geometry = geo;
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
 
     return this.mesh;
 }

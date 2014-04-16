@@ -1,4 +1,4 @@
-var WORLD_WIDTH = 12;
+var WORLD_WIDTH = 20;
 var WORLD_HEIGHT = 6;
 
 var World = function () {
@@ -69,7 +69,7 @@ World.prototype.render = function (scene) {
             for(var z = 0; z < WORLD_WIDTH; z++){
                 for(var y = 0; y < WORLD_HEIGHT; y++){
                     if(this.world[x][z][y].is_dirty()){
-                        console.log("dirty");
+                        //console.log("dirty");
                         //scene.remove(this.world[x][z][y].get_mesh());
                         var item = this.world[x][z][y].render(this);
                         item.material = materialStorageInstance.get_materials_wrapped();

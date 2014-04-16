@@ -33,7 +33,7 @@ var main = function() {
                 } else if (val > 0.0) {
                     world.set(x,z,y, new Grass());
                 }*/
-                world.set(x,z,y, new Block());
+                world.set(x,z,y, new Grass());
             
 
                 
@@ -47,7 +47,14 @@ var main = function() {
 
     for(var x = 0; x < WORLD_WIDTH; x++){
         heart_stamp.stamp(world, x*CHUNK_SIZE, (WORLD_WIDTH-1)*CHUNK_SIZE, 16);
-        pillar.stamp(world, x*CHUNK_SIZE, 0, 16);
+        pillar.stamp(world, x*CHUNK_SIZE, x*CHUNK_SIZE, 16);
+    }
+    
+    var blockStart = WORLD_WIDTH * CHUNK_SIZE / 2 - 64;
+    for(var x = blockStart; x < blockStart+128; x++){
+        for(var y = blockStart; y < blockStart+128; y++){
+            world.set(x,y,16, new Grass());
+        }
     }
 
     //world.set(0,0,0, new Block());
@@ -56,6 +63,8 @@ var main = function() {
     renderer = new THREE.WebGLRenderer({antialias: true});
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor( 0x87CEEB, 1 );
+    renderer.shadowMapEnabled = true;
+    renderer.shadowMapType = THREE.PCFSoftShadowMap;
     document.body.appendChild(renderer.domElement);
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000);
@@ -83,12 +92,55 @@ var main = function() {
     
     world.render(scene);
     
+    var farPlaneMesh = new THREE.Mesh();
+    farPlaneMesh.geometry = new THREE.PlaneGeometry(128,128,0);
+    farPlaneMesh.position.x = 0;
+    farPlaneMesh.position.y = 0;
+    farPlaneMesh.position.z = -64;
+    farPlaneMesh.material = new THREE.MeshLambertMaterial({color: 0xff0000, ambient: 0x330000});
+    scene.add(farPlaneMesh);
+    
     var ambientLight = new THREE.AmbientLight(0xffffff);
     scene.add(ambientLight);
     
-    var light = new THREE.DirectionalLight( 0xffffff, 1.0 ); // soft white light
-    light.position.set(-1.0,1.0,-1.0).normalize();
-    scene.add(light);
+    //var light = new THREE.DirectionalLight( 0xffffff, 1.0 ); // soft white light
+    //light.position.set(-1.0,1.0,-1.0).normalize();
+    //scene.add(light);
+    
+    var keyLight = new THREE.DirectionalLight( 0xffffff, 0.75 );
+    var fillLight = new THREE.DirectionalLight( 0xffffff, 0.5 );
+    var backLight = new THREE.DirectionalLight( 0xffffff, 1.0 );
+    
+    keyLight.castShadow = true;
+    //fillLight.castShadow = true;
+    keyLight.shadowCameraVisible = true;
+    //fillLight.shadowCameraVisible = true;
+    fillLight.shadowMapWidth = 128;
+    fillLight.shadowMapHeight = 128;
+    fillLight.shadowBias = 0.0001;
+    
+    var keyLightPosition = new THREE.Vector3(-1000.0,750.0,1000.0);
+    var fillLightPosition = new THREE.Vector3(150,100,1000.0);
+    var backLightPosition = new THREE.Vector3(-1.0,1.0,-1.0).normalize();
+    
+    keyLight.position = keyLightPosition;
+    fillLight.position = fillLightPosition;
+    backLight.position = backLightPosition;
+    
+    scene.add(keyLight);
+    scene.add(fillLight);
+    scene.add(backLight);
+    
+    
+    var vecOrig = new THREE.Vector3(0,0,0);
+    var arrowX = new THREE.ArrowHelper(keyLightPosition, vecOrig, 10, 0xff0000, 0.1, 0.1); //r
+    var arrowY = new THREE.ArrowHelper(fillLightPosition, vecOrig, 10, 0x00ff00, 0.1, 0.1); //g
+    var arrowZ = new THREE.ArrowHelper(backLightPosition, vecOrig, 10, 0x0000ff, 0.1, 0.1); //b
+    
+    scene.add(arrowX);
+    scene.add(arrowY);
+    scene.add(arrowZ);
+    
 
     /**
     document.getElementById("voxels").innerHTML = voxels_active;

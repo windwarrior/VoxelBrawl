@@ -24,6 +24,9 @@ THREE.IndexedPlaneGeometry = function (materialIndex) {
 
     this.faces.push(face1);
     this.faces.push(face2);
+    
+    //this.computeVertexNormals();
+    //this.computeFaceNormals();
 };
 
 THREE.IndexedPlaneGeometry.prototype = Object.create( THREE.Geometry.prototype );
