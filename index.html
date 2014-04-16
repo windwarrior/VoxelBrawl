@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Voxel demo</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <script type="text/javascript" src="js/libs/three.js"></script>
+        <script type="text/javascript" src="js/libs/OrbitControls.js"></script>
+		<script type="text/javascript" src="js/libs/ImprovedNoise.js"></script>
+        <script type="text/javascript" src="js/libs/stats.min.js"></script>
+        <script type="text/javascript" src="js/indexed_plane_geometry.js"></script>
+        <script type="text/javascript" src="js/materials.js"></script>
+        <script type="text/javascript" src="js/block.js"></script>
+        <script type="text/javascript" src="js/blocks/grass.js"></script>
+        <script type="text/javascript" src="js/blocks/dirt.js"></script>
+        <script type="text/javascript" src="js/blocks/heart_red.js"></script>
+        <script type="text/javascript" src="js/blocks/steel.js"></script>
+        <script type="text/javascript" src="js/stamps/heart_stamp.js"></script>
+        <script type="text/javascript" src="js/stamps/pillar.js"></script>
+        <script type="text/javascript" src="js/blocks/stone.js"></script>
+        <script type="text/javascript" src="js/chunk.js"></script>
+        <script type="text/javascript" src="js/world.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            #stats {
+                font-family: sans;
+                position: absolute;
+                font-size: 10px;
+                top: 0px;
+                padding: 3px;
+            }
+        </style>
+
+        <script type="text/javascript">
+            document.onreadystatechange = function () {
+              if (document.readyState == "complete") {
+                main();
+              }
+            }
+        </script>
+    </head>
+    <body>
+        <div id="stats">
+            <div>Total voxels active: <span id="voxels"></span></div>
+            <div>Total vertices: <span id="vertices"></span></div>
+            <div>Total faces: <span id="faces"></span></div>
+            <div>Percentage of faces culled: <span id="culled"></span>%</div>
+            <div>Seed: <span id="seed"></span></div>
+        </div>
+        
+    </body>
+</html>
